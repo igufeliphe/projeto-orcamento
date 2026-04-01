@@ -171,7 +171,7 @@ function gerarOrcamento() {
 
   document.getElementById('doc-content').innerHTML = `
     <div class="doc-header">
-      <h2>Orçamento de Serviços<br>de TI</h2>
+      <h2>Orçamento de Serviços</h2>
       <div class="doc-num">Nº ${num}</div>
     </div>
 
