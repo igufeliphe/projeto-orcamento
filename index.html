@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Orçamento de Serviços de TI</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <!-- ══ FORMULÁRIO ══════════════════════════════════════ -->
+  <div id="formulario">
+
+    <!-- Hero / Cabeçalho -->
+    <div class="hero">
+      <div class="hero__circle-1"></div>
+      <div class="hero__circle-2"></div>
+
+      <div class="hero__top">
+        <div>
+          <h1 class="hero__title">Orçamento de<br>Serviços de TI</h1>
+          <p class="hero__sub">Preencha os dados abaixo e gere seu documento</p>
+        </div>
+        <div class="num-pill" id="num-display">Nº 001/2026</div>
+      </div>
+
+      <div class="hero__fields">
+        <div class="hfield">
+          <label>Número</label>
+          <input id="num" value="001/2026" oninput="syncNum()" />
+        </div>
+        <div class="hfield">
+          <label>Data</label>
+          <input type="date" id="data" />
+        </div>
+        <div class="hfield">
+          <label>Validade</label>
+          <input id="validade" value="15 dias" placeholder="Ex: 15 dias" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Step pills -->
+    <div class="steps">
+      <div class="step-pill"><span class="dot"></span> Cliente</div>
+      <div class="step-pill"><span class="dot"></span> Peças</div>
+      <div class="step-pill"><span class="dot"></span> Serviços</div>
+      <div class="step-pill"><span class="dot"></span> Condições</div>
+      <div class="step-pill"><span class="dot"></span> Pagamento</div>
+    </div>
+
+    <!-- Dados do cliente -->
+    <div class="section">
+      <div class="sec-head">
+        <div class="sec-num">C</div>
+        <h2>Dados do cliente</h2>
+      </div>
+      <div class="inner-grid">
+        <div class="cond-field">
+          <label>Nome do cliente</label>
+          <input id="cliente" placeholder="Ex: Diego Castro" />
+        </div>
+        <div class="cond-field">
+          <label>Técnico responsável</label>
+          <input id="tecnico" placeholder="Ex: Igor Feliphe" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Peças e insumos -->
+    <div class="section">
+      <div class="sec-head">
+        <div class="sec-num">1</div>
+        <h2>Peças e insumos</h2>
+      </div>
+      <div class="tbl-wrap">
+        <table class="gt">
+          <thead>
+            <tr>
+              <th style="width:22%">Componente</th>
+              <th style="width:28%">Especificação</th>
+              <th>Link</th>
+              <th style="width:120px">Valor</th>
+              <th style="width:38px"></th>
+            </tr>
+          </thead>
+          <tbody id="body-pecas">
+            <tr>
+              <td><input placeholder='Ex: SSD SATA III 2.5"' /></td>
+              <td><input placeholder="480GB, 500MB/s..." /></td>
+              <td><input placeholder="https://..." /></td>
+              <td class="val-cell">
+                <input type="number" placeholder="0,00" min="0" step="0.01" oninput="calcTotais()" />
+              </td>
+              <td style="text-align:center">
+                <button class="btn-del" onclick="delRow(this)">×</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="row-add">
+        <button class="btn-add" onclick="addPeca()">
+          <span class="plus">+</span> Adicionar peça
+        </button>
+      </div>
+    </div>
+
+    <!-- Serviços -->
+    <div class="section">
+      <div class="sec-head">
+        <div class="sec-num">2</div>
+        <h2>Serviços profissionais</h2>
+      </div>
+      <div class="tbl-wrap">
+        <table class="gt">
+          <thead>
+            <tr>
+              <th style="width:25%">Serviço</th>
+              <th>Descrição</th>
+              <th style="width:120px">Valor</th>
+              <th style="width:38px"></th>
+            </tr>
+          </thead>
+          <tbody id="body-servicos">
+            <tr>
+              <td><input placeholder="Ex: Upgrade & Otimização" /></td>
+              <td><textarea placeholder="Descrição detalhada do serviço..."></textarea></td>
+              <td class="val-cell">
+                <input type="number" placeholder="0,00" min="0" step="0.01" oninput="calcTotais()" />
+              </td>
+              <td style="text-align:center">
+                <button class="btn-del" onclick="delRow(this)">×</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="row-add">
+        <button class="btn-add" onclick="addServico()">
+          <span class="plus">+</span> Adicionar serviço
+        </button>
+      </div>
+    </div>
+
+    <!-- Totais -->
+    <div class="totals-strip">
+      <div class="tot-card">
+        <label>Total peças</label>
+        <span id="tot-pecas">R$ 0,00</span>
+      </div>
+      <div class="tot-card">
+        <label>Total serviços</label>
+        <span id="tot-servicos">R$ 0,00</span>
+      </div>
+      <div class="tot-card main">
+        <label>Total geral</label>
+        <span id="tot-geral">R$ 0,00</span>
+      </div>
+    </div>
+
+    <!-- Condições e prazos -->
+    <div class="section">
+      <div class="sec-head">
+        <div class="sec-num">3</div>
+        <h2>Condições e prazos</h2>
+      </div>
+      <div class="inner-grid">
+        <div class="cond-field">
+          <label>Logística</label>
+          <input id="logistica" placeholder="Ex: Peças por conta do cliente." />
+        </div>
+        <div class="cond-field">
+          <label>Execução</label>
+          <input id="execucao" placeholder="Ex: Início após chegada dos itens." />
+        </div>
+        <div class="cond-field full">
+          <label>Prazo</label>
+          <input id="prazo" placeholder="Ex: Até 3 dias úteis após o recebimento." />
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagamento -->
+    <div class="section">
+      <div class="sec-head">
+        <div class="sec-num">4</div>
+        <h2>Pagamento via PIX</h2>
+      </div>
+      <div class="inner-grid">
+        <div class="cond-field">
+          <label>Chave PIX</label>
+          <input id="pix-chave" placeholder="email@exemplo.com" />
+        </div>
+        <div class="cond-field">
+          <label>Favorecido</label>
+          <input id="pix-fav" placeholder="Nome completo" />
+        </div>
+        <div class="cond-field">
+          <label>Banco</label>
+          <input id="pix-banco" placeholder="Ex: Nubank" />
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-gerar" onclick="gerarOrcamento()">
+      Gerar orçamento
+    </button>
+
+  </div>
+  <!-- ══ fim #formulario ══ -->
+
+
+  <!-- ══ PREVIEW ════════════════════════════════════════ -->
+  <div id="preview">
+    <div class="preview-bg">
+      <div class="doc" id="doc-content"></div>
+    </div>
+    <div class="doc-actions">
+      <button class="btn-sec" onclick="voltarForm()">← Editar</button>
+      <button class="btn-pri" onclick="imprimir()">Imprimir / Salvar PDF</button>
+    </div>
+  </div>
+  <!-- ══ fim #preview ══ -->
+
+</div>
+
+<!-- Scripts -->
+<script src="js/app.js"></script>
+
+</body>
+</html>
